@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "769385783276",
+    "project_id": "ar-testing-604fb",
+    "storage_bucket": "ar-testing-604fb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:769385783276:android:b118e2687f44d3b29d6ac9",
+        "android_client_info": {
+          "package_name": "com.example.testing_ar_packages"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5v6aZobHgcrDndjCBIFeOG3bdYAHB0og"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
