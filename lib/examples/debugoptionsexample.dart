@@ -35,7 +35,7 @@ class _DebugOptionsWidgetState extends State<DebugOptionsWidget> {
   @override
   void dispose() {
     super.dispose();
-    arSessionManager!.dispose();
+    arSessionManager?.dispose();
   }
 
   @override
@@ -198,8 +198,26 @@ class _DebugOptionsWidgetState extends State<DebugOptionsWidget> {
     Logger().f("P111 Room Output: $jsonOutput");
 
     try {
-      final directory = await getApplicationDocumentsDirectory();
-      final file = File('${directory.path}/room_data.json');
+      Directory? directory;
+      if (Platform.isAndroid) {
+        directory = await getDownloadsDirectory();
+        // Fallback if null (plugin support varies)
+        if (directory == null) {
+          directory = await getExternalStorageDirectory();
+        }
+      } else {
+        directory = await getApplicationDocumentsDirectory();
+      }
+
+      // Ensure directory exists (Downloads should, but good practice)
+      if (directory != null && !await directory.exists()) {
+        // We can't create Downloads root, but we can check if it exists.
+        // If it's app specific, we can create.
+        // For system Downloads, it should exist.
+      }
+
+      // Add timestamp to filename to avoid overwrites or just keep room_data
+      final file = File('${directory!.path}/room_data.json');
       await file.writeAsString(jsonOutput);
       Logger().f("P111 Saved to file: ${file.path}");
 
