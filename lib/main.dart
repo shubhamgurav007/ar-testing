@@ -48,7 +48,7 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       _platformVersion = platformVersion;
     });
-  }
+  } 
 
   @override
   Widget build(BuildContext context) {
