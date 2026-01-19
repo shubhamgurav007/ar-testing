@@ -218,8 +218,9 @@ class _DebugOptionsWidgetState extends State<DebugOptionsWidget> {
         // For system Downloads, it should exist.
       }
 
-      // Add timestamp to filename to avoid overwrites or just keep room_data
-      final file = File('${directory!.path}/room_data.json');
+      // Add timestamp to filename to avoid overwrites
+      final timestamp = DateTime.now().millisecondsSinceEpoch;
+      final file = File('${directory!.path}/room_data_$timestamp.json');
       await file.writeAsString(jsonOutput);
       Logger().f("P111 Saved to file: ${file.path}");
 
