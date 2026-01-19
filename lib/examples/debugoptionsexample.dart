@@ -11,6 +11,8 @@ import 'package:logger/web.dart';
 import 'package:vector_math/vector_math_64.dart';
 import 'dart:convert';
 import 'dart:math';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
 class DebugOptionsWidget extends StatefulWidget {
   DebugOptionsWidget({Key? key}) : super(key: key);
@@ -185,7 +187,7 @@ class _DebugOptionsWidgetState extends State<DebugOptionsWidget> {
     }
   }
 
-  void _calculateRoom() {
+  Future<void> _calculateRoom() async {
     if (collectedPlanes.isEmpty) {
       Logger().e("P111 No planes collected!");
       return;
@@ -195,10 +197,21 @@ class _DebugOptionsWidgetState extends State<DebugOptionsWidget> {
     String jsonOutput = calculator.processPlanes(collectedPlanes);
     Logger().f("P111 Room Output: $jsonOutput");
 
-    // Show dialog or snackbar
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text("Calculation done. Check console.")));
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      final file = File('${directory.path}/room_data.json');
+      await file.writeAsString(jsonOutput);
+      Logger().f("P111 Saved to file: ${file.path}");
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Saved to ${file.path}")));
+    } catch (e) {
+      Logger().e("P111 Error saving file: $e");
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Error saving to file: $e")));
+    }
   }
 }
 
