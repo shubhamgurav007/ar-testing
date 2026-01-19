@@ -200,9 +200,11 @@ class _DebugOptionsWidgetState extends State<DebugOptionsWidget> {
     try {
       Directory? directory;
       if (Platform.isAndroid) {
-        directory = await getDownloadsDirectory();
-        // Fallback if null (plugin support varies)
-        if (directory == null) {
+        directory = Directory('/storage/emulated/0/Download');
+        // If standard Download dir doesn't exist or we can't write to it, fallback might be needed,
+        // but for now we try this as requested.
+        if (!await directory.exists()) {
+          // Try fallback to what the plugin gives us if hardcoded path fails checks
           directory = await getExternalStorageDirectory();
         }
       } else {
