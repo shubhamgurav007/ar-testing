@@ -26,7 +26,7 @@ class _DebugOptionsWidgetState extends State<DebugOptionsWidget> {
   bool _showFeaturePoints = false;
   bool _showPlanes = false;
   bool _showWorldOrigin = false;
-  bool _showAnimatedGuide = true;
+  bool _showAnimatedGuide = false;
   String _planeTexturePath = "Images/triangle.png";
   bool _handleTaps = false;
 
@@ -146,11 +146,14 @@ class _DebugOptionsWidgetState extends State<DebugOptionsWidget> {
 
   void updateSessionSettings() {
     this.arSessionManager!.onInitialize(
+      showAnimatedGuide: _showAnimatedGuide,
       showFeaturePoints: _showFeaturePoints,
       showPlanes: _showPlanes,
       customPlaneTexturePath: _planeTexturePath,
       showWorldOrigin: _showWorldOrigin,
       handleTaps: _handleTaps,
+      handlePans: true,
+      handleRotation: true,
     );
   }
 
