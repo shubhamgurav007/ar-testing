@@ -7,6 +7,7 @@ import 'package:ar_flutter_plugin/ar_flutter_plugin.dart';
 import 'package:ar_flutter_plugin/datatypes/config_planedetection.dart';
 import 'package:ar_flutter_plugin/datatypes/hittest_result_types.dart';
 import 'package:ar_flutter_plugin/models/ar_hittest_result.dart';
+import 'package:logger/web.dart';
 import 'package:vector_math/vector_math_64.dart';
 import 'dart:convert';
 import 'dart:math';
@@ -152,6 +153,7 @@ class _DebugOptionsWidgetState extends State<DebugOptionsWidget> {
   }
 
   void onPlaneOrPointTapped(List<ARHitTestResult> hitTestResults) {
+    Logger().e("P111 hitTestResults:");
     var planeHit = hitTestResults.firstWhere(
       (hit) => hit.type == ARHitTestResultType.plane,
       orElse: () =>
@@ -179,19 +181,19 @@ class _DebugOptionsWidgetState extends State<DebugOptionsWidget> {
         );
       });
 
-      print("Plane added: ${position}");
+      Logger().w("P111 Plane added: ${collectedPlanes}");
     }
   }
 
   void _calculateRoom() {
     if (collectedPlanes.isEmpty) {
-      print("No planes collected!");
+      Logger().e("P111 No planes collected!");
       return;
     }
 
     RoomCalculator calculator = RoomCalculator();
     String jsonOutput = calculator.processPlanes(collectedPlanes);
-    print("Room Output: $jsonOutput");
+    Logger().f("P111 Room Output: $jsonOutput");
 
     // Show dialog or snackbar
     ScaffoldMessenger.of(
